@@ -267,8 +267,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Voice commands and accessibility
 - [ ] Native mobile apps (React Native/Flutter)
 
+Got it ✅ You want your **GitHub Pages live site link** added inside this README.
+Here’s the updated top section of your README with your site included:
+
+# M-Indicator - Mumbai Train Guide 🚊
+
+A comprehensive, responsive web application for Mumbai local train schedules and live tracking, featuring a beautiful sky blue theme and modern user interface.
+
+🔗 **Live Demo:** [Click Here](https://nitesh-shaw-098.github.io/m-indicator-app/)
+
 ---
 
 **Built with ❤️ for Mumbai commuters**
 
 *This app aims to make daily train travel in Mumbai more convenient and efficient for millions of commuters.*
+
