@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Indicator - Mumbai Train Guide</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#87CEEB">
+    <meta name="description" content="Complete Mumbai train schedule and live tracking app">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="train-icon">🚊</div>
+            <div class="loading-text">M-Indicator</div>
+            <div class="loading-subtitle">Loading train data...</div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-train logo-icon"></i>
+                    <h1>M-Indicator</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="notifications-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="icon-btn" id="settings-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-tab" data-tab="schedule">
+                <i class="fas fa-clock"></i>
+                <span>Schedule</span>
+            </button>
+            <button class="nav-tab" data-tab="live">
+                <i class="fas fa-broadcast-tower"></i>
+                <span>Live</span>
+            </button>
+            <button class="nav-tab" data-tab="routes">
+                <i class="fas fa-route"></i>
+                <span>Routes</span>
+            </button>
+            <button class="nav-tab" data-tab="more">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>More</span>
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Home Tab -->
+            <section id="home-tab" class="tab-content active">
+                <!-- Quick Search -->
+                <div class="quick-search-card">
+                    <h2><i class="fas fa-search"></i> Quick Search</h2>
+                    <div class="search-form">
+                        <div class="search-input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt from-icon"></i>
+                                <input type="text" id="from-station" placeholder="From Station" autocomplete="off">
+                                <button class="swap-btn" id="swap-stations" title="Swap stations">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                            </div>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt to-icon"></i>
+                                <input type="text" id="to-station" placeholder="To Station" autocomplete="off">
+                            </div>
+                        </div>
+                        <button class="search-btn" id="search-trains">
+                            <i class="fas fa-search"></i>
+                            Find Trains
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="weather-card">
+                    <div class="weather-info">
+                        <div class="weather-main">
+                            <i class="fas fa-sun weather-icon"></i>
+                            <div class="weather-temp">28°C</div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="weather-location">Mumbai</div>
+                            <div class="weather-desc">Partly Cloudy</div>
+                        </div>
+                    </div>
+                    <div class="weather-stats">
+                        <div class="weather-stat">
+                            <i class="fas fa-eye"></i>
+                            <span>10km</span>
+                        </div>
+                        <div class="weather-stat">
+                            <i class="fas fa-tint"></i>
+                            <span>65%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Favorites Section -->
+                <div class="favorites-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-heart"></i> Favorite Routes</h3>
+                        <button class="add-favorite-btn" id="add-favorite">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="favorites-list" id="favorites-list">
+                        <!-- Favorites will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Live Updates -->
+                <div class="updates-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Service Updates</h3>
+                    <div class="updates-list">
+                        <div class="update-item">
+                            <div class="update-time">10:30 AM</div>
+                            <div class="update-text">Western Line: Services running normally</div>
+                            <div class="update-status normal">Normal</div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-time">10:15 AM</div>
+                            <div class="update-text">Central Line: 5-minute delay expected</div>
+                            <div class="update-status delay">Delayed</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Tab -->
+            <section id="schedule-tab" class="tab-content">
+                <div class="schedule-container">
+                    <div class="schedule-header">
+                        <h2><i class="fas fa-clock"></i> Train Schedule</h2>
+                        <div class="schedule-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="fast">Fast</button>
+                            <button class="filter-btn" data-filter="slow">Slow</button>
+                            <button class="filter-btn" data-filter="ladies">Ladies</button>
+                        </div>
+                    </div>
+                    
+                    <div class="route-info" id="route-info" style="display: none;">
+                        <div class="route-header">
+                            <div class="route-stations">
+                                <span id="route-from">From</span> → <span id="route-to">To</span>
+                            </div>
+                            <div class="route-distance" id="route-distance"></div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-results" id="schedule-results">
+                        <!-- Results will be populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Live Tracking Tab -->
+            <section id="live-tab" class="tab-content">
+                <div class="live-tracking">
+                    <h2><i class="fas fa-broadcast-tower"></i> Live Train Tracking</h2>
+                    
+                    <div class="line-selector">
+                        <button class="line-btn active" data-line="western">Western</button>
+                        <button class="line-btn" data-line="central">Central</button>
+                        <button class="line-btn" data-line="harbour">Harbour</button>
+                    </div>
+
+                    <div class="live-trains-container">
+                        <div class="live-train-item">
+                            <div class="train-info">
+                                <div class="train-number">WR-1234</div>
+                                <div class="train-route">Churchgate → Virar</div>
+                            </div>
+                            <div class="train-status">
+                                <div class="current-location">Currently at: Andheri</div>
+                                <div class="delay-info on-time">On Time</div>
+                            </div>
+                            <div class="next-stations">
+                                <div class="next-station">Next: Jogeshwari (3 min)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Routes Tab -->
+            <section id="routes-tab" class="tab-content">
+                <div class="routes-container">
+                    <h2><i class="fas fa-route"></i> Route Planning</h2>
+                    
+                    <div class="route-planner">
+                        <div class="journey-options">
+                            <div class="option-group">
+                                <label>Journey Type:</label>
+                                <select id="journey-type">
+                                    <option value="fastest">Fastest Route</option>
+                                    <option value="least-changes">Least Changes</option>
+                                    <option value="cheapest">Cheapest</option>
+                                </select>
+                            </div>
+                            
+                            <div class="option-group">
+                                <label>Time:</label>
+                                <select id="journey-time">
+                                    <option value="now">Leave Now</option>
+                                    <option value="custom">Custom Time</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="route-results" id="route-results">
+                            <!-- Route options will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- More Tab -->
+            <section id="more-tab" class="tab-content">
+                <div class="more-options">
+                    <h2><i class="fas fa-ellipsis-h"></i> More Options</h2>
+                    
+                    <div class="option-grid">
+                        <div class="option-card" data-action="stations">
+                            <i class="fas fa-building"></i>
+                            <h3>Station Info</h3>
+                            <p>Facilities, platforms, exits</p>
+                        </div>
+                        
+                        <div class="option-card" data-action="fare">
+                            <i class="fas fa-rupee-sign"></i>
+                            <h3>Fare Calculator</h3>
+                            <p>Calculate journey cost</p>
+                        </div>
+                        
+                        <div class="option-card" data-action="maps">
+                            <i class="fas fa-map"></i>
+                            <h3>Route Maps</h3>
+                            <p>Visual train network</p>
+                        </div>
+                        
+                        <div class="option-card" data-action="offline">
+                            <i class="fas fa-download"></i>
+                            <h3>Offline Mode</h3>
+                            <p>Download schedules</p>
+                        </div>
+                        
+                        <div class="option-card" data-action="alerts">
+                            <i class="fas fa-bell"></i>
+                            <h3>Smart Alerts</h3>
+                            <p>Personalized notifications</p>
+                        </div>
+                        
+                        <div class="option-card" data-action="feedback">
+                            <i class="fas fa-comment"></i>
+                            <h3>Feedback</h3>
+                            <p>Report issues, suggestions</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Autocomplete Dropdown -->
+    <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+
+    <!-- Modal Overlays -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-content" class="modal-content">
+            <!-- Modal content will be populated dynamically -->
+        </div>
+    </div>
+
+    <!-- Bottom Sheet -->
+    <div id="bottom-sheet" class="bottom-sheet">
+        <div class="bottom-sheet-handle"></div>
+        <div id="bottom-sheet-content" class="bottom-sheet-content">
+            <!-- Bottom sheet content will be populated dynamically -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
